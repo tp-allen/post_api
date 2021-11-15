@@ -16,11 +16,13 @@ url = os.environ["ACCOUNT_URI"]
 key = os.environ["ACCOUNT_KEY"]
 client = CosmosClient(url, credential=key)
 
-# Set database name
+# Create a database
 database_name = os.environ["COSMOSDB_NAME"]
+database = client.get_database_client(id=database_name)
 
-# Set Container Name
+# Create a Container
 container_name = os.environ["COSMOSDB_CONTAINER"]
+container = database.get_container_client(id=container_name)
 
 # Basic Status GET
 class Status(Resource):
