@@ -10,3 +10,5 @@
 
 # Terraform Folder
 */.terraform
+
+.DS_Store
