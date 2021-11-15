@@ -55,7 +55,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Architecture Diagram][architecture-diagram]](docs/Simple_API_Azure.png)
+[![Architecture Diagram][architecture-diagram]](https://github.com/tp-allen/simple_api/docs/Simple_API_Azure.png)
 
 A Proof of concept consisting of a single web-application and a single database.
 The service will accept a POST request that will persist the timestamp of that event into a database.
