@@ -14,13 +14,14 @@ variables:
 
   # Azure.ServiceConnectionId value with AzureRm service endpoint.
   # Needs to be created through DevOps and Azure Portal
-  Azure.ServiceConnectionId: "AzureEndpointDev"
+  Azure.ServiceConnectionId: "AzureEndpoint"
 
   # ACR.Name value with ACR name.
-  ACR.Name: "crtimeappdev001"
+  ACR.Name: $(ACR.Name)
 
   # WebApp.Name value with a name that identifies the Web app
-  WebApp.Name: "app-timeapp-dev-001"
+  # Will need adding as a Variable when configuring the Pipeline in DevOps
+  WebApp.Name: $(WebApp.Name)
 
   # ========================================================================
   #                           Optional variables
