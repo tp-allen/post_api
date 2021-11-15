@@ -1,0 +1,72 @@
+# Docker image, Azure Container Registry, and Azure Web App
+# Build a Docker image, push it to an Azure Container Registry, and deploy it to an Azure Web App.
+
+trigger:
+  - main
+
+resources:
+  - repo: self
+
+variables:
+  # ========================================================================
+  #                          Mandatory variables
+  # ========================================================================
+
+  # Azure.ServiceConnectionId value with AzureRm service endpoint.
+  # Needs to be created through the DevOps and Azure Portal
+  Azure.ServiceConnectionId: "AzureEndpointDev"
+
+  # ACR.Name value with ACR name.
+  ACR.Name: "crtimeappdev001"
+
+  # WebApp.Name value with a name that identifies the Web app
+  WebApp.Name: "app-timeapp-dev-001"
+
+  # ========================================================================
+  #                           Optional variables
+  # ========================================================================
+
+  ACR.ImageName: "$(ACR.Name):$(Build.BuildId)"
+  ACR.FullName: "$(ACR.Name).azurecr.io"
+  System.Debug: "false"
+
+jobs:
+  - job: BuildImage
+    displayName: Build
+
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+      - task: Docker@1
+        displayName: "Build an image"
+        inputs:
+          azureSubscriptionEndpoint: "$(Azure.ServiceConnectionId)"
+          azureContainerRegistry: "$(ACR.FullName)"
+          imageName: "$(ACR.ImageName)"
+          command: build
+          dockerFile: "../**/Dockerfile"
+
+      - task: Docker@1
+        displayName: "Push an image"
+        inputs:
+          azureSubscriptionEndpoint: "$(Azure.ServiceConnectionId)"
+          azureContainerRegistry: "$(ACR.FullName)"
+          imageName: "$(ACR.ImageName)"
+          command: push
+
+  - job: DeployApp
+    displayName: Deploy
+    dependsOn: BuildImage
+    condition: succeeded()
+
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+      - task: AzureWebAppContainer@1
+        displayName: "Azure Web App on Container Deploy: $(WebApp.Name)"
+        inputs:
+          azureSubscription: "$(Azure.ServiceConnectionId)"
+          appName: $(WebApp.Name)
+          imageName: "$(ACR.FullName)/$(ACR.ImageName)"
