@@ -13,7 +13,7 @@ variables:
   # ========================================================================
 
   # Azure.ServiceConnectionId value with AzureRm service endpoint.
-  # Needs to be created through the DevOps and Azure Portal
+  # Needs to be created through DevOps and Azure Portal
   Azure.ServiceConnectionId: "AzureEndpointDev"
 
   # ACR.Name value with ACR name.
@@ -28,7 +28,6 @@ variables:
 
   ACR.ImageName: "$(ACR.Name):$(Build.BuildId)"
   ACR.FullName: "$(ACR.Name).azurecr.io"
-  System.Debug: "false"
 
 jobs:
   - job: BuildImage
