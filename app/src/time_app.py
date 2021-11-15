@@ -16,17 +16,11 @@ url = os.environ["ACCOUNT_URI"]
 key = os.environ["ACCOUNT_KEY"]
 client = CosmosClient(url, credential=key)
 
-# Create a database
-database_name = "SimpleAPI"
-database = client.create_database_if_not_exists(id=database_name)
+# Set database name
+database_name = os.environ["COSMOSDB_NAME"]
 
-# Create a Container
-container_name = "DateTime"
-container = database.create_container_if_not_exists(
-    id=container_name,
-    partition_key=PartitionKey(path="/timestamp"),
-    offer_throughput=400,
-)
+# Set Container Name
+container_name = os.environ["COSMOSDB_CONTAINER"]
 
 # Basic Status GET
 class Status(Resource):

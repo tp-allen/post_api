@@ -3,12 +3,16 @@
 # set base image (host OS)
 FROM python:3.8
 
+# set and add ENVs to be accessed by the app
+ENV ACCOUNT_URI blankuri
+ENV ACCOUNT_KEY blankkey
+ENV COSMOSDB_NAME blankdb
+ENV COSMOSDB_CONTAINER blankcont
 
-# set and add ACCOUNT_URI and ACCOUNT_KEY Envs to be accessed by the app
-ENV ACCOUNT_URI blank
-ENV ACCOUNT_KEY blank
 ADD . $ACCOUNT_URI
 ADD . $ACCOUNT_KEY
+ADD . $COSMOSDB_NAME
+ADD . $COSMOSDB_CONTAINER
 
 # set the working directory in the container
 WORKDIR /code
