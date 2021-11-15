@@ -29,8 +29,6 @@ container = database.create_container_if_not_exists(
 )
 
 # Basic Status GET
-
-
 class Status(Resource):
     def get(self):
         return {"status": "alive"}
